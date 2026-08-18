@@ -11,8 +11,8 @@ async function seed() {
 
   const users = [
     { username: 'admin', password_hash: bcrypt.hashSync('admin123', 10), role: 'admin' },
-    { username: 'staff1', password_hash: bcrypt.hashSync('staff123', 10), role: 'staff' },
-    { username: 'staff2', password_hash: bcrypt.hashSync('staff123', 10), role: 'staff' },
+    { username: 'staff1', password_hash: bcrypt.hashSync('staff123', 10), role: 'production' },
+    { username: 'staff2', password_hash: bcrypt.hashSync('staff123', 10), role: 'warehouse' },
   ];
   const { data: insertedUsers, error: userInsertError } = await client.from('users').insert(users).select('id, username');
   if (userInsertError) throw userInsertError;
@@ -36,7 +36,7 @@ async function seed() {
   const { error: productInsertError } = await client.from('products').insert(products);
   if (productInsertError) throw productInsertError;
   console.log('Seed Supabase selesai.');
-  console.log('Akun demo: admin/admin123, staff1/staff123, staff2/staff123');
+  console.log('Akun demo: admin/admin123 (admin), staff1/staff123 (production), staff2/staff123 (warehouse)');
 }
 
 seed().catch((error) => {

@@ -14,8 +14,8 @@ Buka `http://localhost:3000`.
 
 ## Akun Demo
 
-- `staff1 / staff123`
-- `staff2 / staff123`
+- `staff1 / staff123` - production, hanya tambah produk
+- `staff2 / staff123` - warehouse, edit, ubah stok, dan hapus produk
 - `admin / admin123`
 
 Gunakan Node.js 20+ dan isi `.env` berdasarkan `.env.example`. Jalankan `supabase/schema.sql` di SQL Editor Supabase sebelum menjalankan seed.

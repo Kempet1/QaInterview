@@ -17,6 +17,7 @@ async function loadCurrentUser() {
   const data = await api('/api/auth/me');
   const target = document.getElementById('user-name');
   if (target) target.textContent = `${data.user.username} / ${data.user.role}`;
+  document.body.dataset.role = data.user.role;
   return data.user;
 }
 

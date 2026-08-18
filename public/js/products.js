@@ -3,12 +3,13 @@
   let products = [];
   let page = 1;
   let nameOrder = 'asc';
+  let currentUser;
   const modal = new bootstrap.Modal(document.getElementById('product-modal'));
   const rows = document.getElementById('product-rows');
   const alertBox = document.getElementById('page-alert');
 
   ensureImageUpload();
-  try { await loadCurrentUser(); await loadCategories(); await loadProducts(); } catch (error) { showAlert(error.message, 'danger'); }
+  try { currentUser = await loadCurrentUser(); applyRolePermissions(); await loadCategories(); await loadProducts(); } catch (error) { showAlert(error.message, 'danger'); }
 
   ['search', 'category', 'min-price'].forEach((id) => document.getElementById(id).addEventListener('input', () => { page = 1; loadProducts(); }));
   document.getElementById('name-sort').addEventListener('click', () => { nameOrder = nameOrder === 'asc' ? 'desc' : 'asc'; updateSortIcon(); page = 1; loadProducts(); });
@@ -42,7 +43,8 @@
     // BUG B-M1: harusnya disabled jika page >= totalPages.
     document.getElementById('next-page').disabled = false;
     document.getElementById('empty-state').classList.toggle('d-none', products.length !== 0);
-    rows.innerHTML = visible.map((product) => `<tr><td><div class="product-cell"><div class="product-thumb-wrap">${product.image_url ? `<img class="product-thumb" src="${product.image_url}" alt="${product.name}">` : '<span class="product-thumb-placeholder"><i class="bi bi-image"></i></span>'}</div><div><div class="product-name">${product.name}</div><div class="product-sub">ID #${product.id}</div></div></div></td><td>${product.category}</td><td>Rp ${Number(product.price).toLocaleString('id-ID')}</td><td>${stockBadge(product.stock)}</td><td class="text-end"><button class="btn btn-sm btn-light edit-product" data-id="${product.id}" title="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-light text-danger delete-product" data-id="${product.id}" title="Delete"><i class="bi bi-trash3"></i></button></td></tr>`).join('');
+    const actionButtons = currentUser.role === 'production' ? '<span class="text-secondary">-</span>' : `<button class="btn btn-sm btn-light edit-product" data-id="${product.id}" title="Edit"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-light text-danger delete-product" data-id="${product.id}" title="Delete"><i class="bi bi-trash3"></i></button>`;
+    rows.innerHTML = visible.map((product) => `<tr><td><div class="product-cell"><div class="product-thumb-wrap">${product.image_url ? `<img class="product-thumb" src="${product.image_url}" alt="${product.name}">` : '<span class="product-thumb-placeholder"><i class="bi bi-image"></i></span>'}</div><div><div class="product-name">${product.name}</div><div class="product-sub">ID #${product.id}</div></div></div></td><td>${product.category}</td><td>Rp ${Number(product.price).toLocaleString('id-ID')}</td><td>${stockBadge(product.stock)}</td><td class="text-end">${actionButtons}</td></tr>`).join('');
     document.querySelectorAll('.edit-product').forEach((button) => button.addEventListener('click', () => openForm(button.dataset.id)));
     document.querySelectorAll('.delete-product').forEach((button) => button.addEventListener('click', () => deleteProduct(button.dataset.id)));
   }
@@ -98,6 +100,7 @@
   }
 
   function showAlert(message, type) { alertBox.textContent = message; alertBox.className = `alert alert-${type}`; setTimeout(() => { alertBox.className = 'alert d-none'; }, 3500); }
+  function applyRolePermissions() { if (currentUser.role === 'warehouse') document.getElementById('add-product').classList.add('d-none'); }
   function showToast(message) { document.getElementById('toast-message').textContent = message; bootstrap.Toast.getOrCreateInstance(document.getElementById('app-toast'), { delay: 3500 }).show(); }
   function updateSortIcon() { const button = document.getElementById('name-sort'); button.innerHTML = `<i class="bi bi-arrow-${nameOrder === 'asc' ? 'up' : 'down'}"></i>`; button.setAttribute('aria-label', `Urutkan nama produk ${nameOrder === 'asc' ? 'ascending' : 'descending'}`); }
   function markInvalid(field) { document.getElementById(field).classList.add('is-invalid'); }

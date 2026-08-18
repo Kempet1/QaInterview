@@ -21,6 +21,14 @@ const IMAGE_BUCKET = 'product-images';
 
 router.use(requireLogin);
 
+function canCreateProduct(role) {
+  return role === 'admin' || role === 'production';
+}
+
+function canEditProduct(role) {
+  return role === 'admin' || role === 'warehouse';
+}
+
 function handleImageUpload(req, res, next) {
   imageUpload.single('image')(req, res, (error) => {
     if (!error) return next();
@@ -99,6 +107,7 @@ router.post('/', handleImageUpload, async (req, res, next) => {
   let imageUrl;
   try {
     const { name, category, price, stock } = req.body || {};
+    if (!canCreateProduct(req.session.user.role)) return res.status(403).json({ error: 'Role warehouse tidak dapat menambah produk' });
     if (!name || !String(name).trim()) return res.status(400).json({ error: 'Data tidak valid' });
     imageUrl = await uploadImage(req.file);
     const { data, error } = await getSupabase().from('products').insert({
@@ -121,6 +130,7 @@ router.put('/:id', handleImageUpload, async (req, res, next) => {
   let newImageUrl;
   try {
     const { name, category, price, stock } = req.body || {};
+    if (!canEditProduct(req.session.user.role)) return res.status(403).json({ error: 'Role production tidak dapat mengedit produk' });
     const client = getSupabase();
     const { data: existing, error: findError } = await client.from('products').select('*').eq('id', req.params.id).maybeSingle();
     if (findError) throw findError;
@@ -146,6 +156,7 @@ router.put('/:id', handleImageUpload, async (req, res, next) => {
 
 router.delete('/:id', async (req, res, next) => {
   try {
+    if (!canEditProduct(req.session.user.role)) return res.status(403).json({ error: 'Role production tidak dapat menghapus produk' });
     const client = getSupabase();
     const { data: existing, error: findError } = await client.from('products').select('id, image_url').eq('id', req.params.id).maybeSingle();
     if (findError) throw findError;

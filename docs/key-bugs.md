@@ -10,7 +10,6 @@ Jangan bagikan dokumen ini kepada kandidat. Seluruh bug dimaksudkan untuk ditemu
 | B-H1 | High | Tidak ada rate limit login | Ulangi login gagal berkali-kali. |
 | B-H2 | High | Session tidak expire | Periksa cookie/session setelah idle. |
 | B-H3 | High | Validasi harga/stok longgar | Simpan harga negatif atau stok desimal/negatif. |
-| B-H4 | High | Privilege escalation | Staff login lalu akses `/api/dashboard/admin`. |
 | B-M1 | Medium | Next pagination selalu aktif | Buka halaman terakhir lalu klik Next. |
 | B-M2 | Medium | Sorting case-sensitive | Sort nama dengan data `Apel` dan `apel`. |
 | B-M3 | Medium | Duplikat produk diizinkan | Buat produk dengan nama yang sama dua kali. |

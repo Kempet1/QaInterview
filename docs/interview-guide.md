@@ -4,12 +4,12 @@
 
 1. Jalankan `npm run seed`.
 2. Jalankan `npm run dev` dan cek `http://localhost:3000/health`.
-3. Berikan kandidat URL, akun `staff1 / staff123`, template bug report, dan waktu 45-60 menit.
+3. Berikan kandidat URL, akun `staff1 / staff123`, template bug report, dan waktu 20 menit.
 4. Jangan memberikan source code atau `key-bugs.md`.
 
 ## Instruksi Kandidat
 
-> Anda akan menguji aplikasi katalog produk. Lakukan exploratory testing selama 45-60 menit. Prioritaskan risiko yang berdampak pada user dan data. Catat setiap temuan dalam Bug Report yang reproducible. Anda boleh menggunakan browser DevTools seperlunya, tetapi tidak diberikan akses source code.
+> Anda akan menguji aplikasi katalog produk. Lakukan exploratory testing selama 20 menit. Prioritaskan risiko yang berdampak pada user dan data. Catat setiap temuan dalam Bug Report yang reproducible. Anda boleh menggunakan browser DevTools seperlunya, tetapi tidak diberikan akses source code.
 
 ## Format Penilaian
 
