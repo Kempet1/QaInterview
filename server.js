@@ -6,12 +6,9 @@ const session = require('express-session');
 const authRoutes = require('./src/routes/auth');
 const productRoutes = require('./src/routes/products');
 const dashboardRoutes = require('./src/routes/dashboard');
-const { initDb } = require('./src/db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-initDb();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -51,6 +48,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`QA Test Website berjalan di http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`QA Test Website berjalan di http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
