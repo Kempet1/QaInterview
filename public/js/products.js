@@ -89,7 +89,7 @@
     const formData = new FormData();
     Object.entries(body).forEach(([key, value]) => formData.append(key, value));
     if (image) formData.append('image', image);
-    try { await api(id ? `/api/products/${id}` : '/api/products', { method: id ? 'PUT' : 'POST', body: formData }); modal.hide(); showAlert(id ? 'Produk diperbarui.' : 'Produk berhasil ditambahkan.', 'success'); await loadProducts(); } catch (error) { const formAlert = document.getElementById('form-alert'); formAlert.textContent = error.message; formAlert.className = 'alert alert-danger'; }
+    try { await api(id ? `/api/products/${id}` : '/api/products', { method: id ? 'PUT' : 'POST', body: formData }); modal.hide(); showToast(id ? 'Produk diperbarui.' : 'Produk berhasil ditambahkan.'); await loadProducts(); } catch (error) { const formAlert = document.getElementById('form-alert'); formAlert.textContent = error.message; formAlert.className = 'alert alert-danger'; }
   }
 
   async function deleteProduct(id) {
@@ -98,6 +98,7 @@
   }
 
   function showAlert(message, type) { alertBox.textContent = message; alertBox.className = `alert alert-${type}`; setTimeout(() => { alertBox.className = 'alert d-none'; }, 3500); }
+  function showToast(message) { document.getElementById('toast-message').textContent = message; bootstrap.Toast.getOrCreateInstance(document.getElementById('app-toast'), { delay: 3500 }).show(); }
   function updateSortIcon() { const button = document.getElementById('name-sort'); button.innerHTML = `<i class="bi bi-arrow-${nameOrder === 'asc' ? 'up' : 'down'}"></i>`; button.setAttribute('aria-label', `Urutkan nama produk ${nameOrder === 'asc' ? 'ascending' : 'descending'}`); }
   function markInvalid(field) { document.getElementById(field).classList.add('is-invalid'); }
   function clearValidation() { document.querySelectorAll('#product-form .is-invalid').forEach((field) => field.classList.remove('is-invalid')); }
