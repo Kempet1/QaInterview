@@ -37,7 +37,8 @@ router.post('/login', async (req, res, next) => {
 });
 
 router.post('/logout', (req, res) => {
-  req.session.destroy(() => res.json({ message: 'Logout berhasil' }));
+  req.session = null;
+  res.json({ message: 'Logout berhasil' });
 });
 
 router.get('/me', (req, res) => {

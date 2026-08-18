@@ -1,6 +1,6 @@
 # QA Test Website
 
-Website latihan interview untuk menguji hard skill calon Staff QA melalui exploratory testing pada aplikasi login dan CRUD produk. Database menggunakan Supabase PostgreSQL dan gambar produk disimpan di Supabase Storage.
+Website latihan interview untuk menguji hard skill calon Staff QA melalui exploratory testing pada aplikasi login dan CRUD produk. Database menggunakan Supabase PostgreSQL, gambar produk disimpan di Supabase Storage, dan session login menggunakan signed cookie agar kompatibel dengan Vercel.
 
 ## Menjalankan
 

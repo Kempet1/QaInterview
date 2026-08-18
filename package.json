@@ -22,7 +22,8 @@
     "express-session": "^1.18.0",
     "multer": "^2.0.2",
     "@supabase/server": "^1.4.1",
-    "@supabase/supabase-js": "^2.112.3"
+    "@supabase/supabase-js": "^2.112.3",
+    "cookie-session": "^2.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

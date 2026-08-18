@@ -1,7 +1,7 @@
 require('dotenv').config();
 const path = require('path');
 const express = require('express');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 
 const authRoutes = require('./src/routes/auth');
 const productRoutes = require('./src/routes/products');
@@ -14,18 +14,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// BUG B-H2 (sengaja): session tidak memiliki maxAge / rolling, sehingga
-// session tidak pernah expire meskipun user idle dalam waktu lama.
+// Stateless cookie session membuat login tetap tersedia antar invocations Vercel.
 app.use(
-  session({
+  cookieSession({
     name: 'qa_sid',
-    secret: process.env.SESSION_SECRET || 'rahasia-ujian-qa',
-    resave: false,
-    saveUninitialized: false,
+    keys: [process.env.SESSION_SECRET || 'rahasia-ujian-qa'],
     cookie: {
       httpOnly: true,
-      secure: false,
-      // maxAge sengaja TIDAK diset -> session hidup selamanya
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
     },
   })
 );
