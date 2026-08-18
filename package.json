@@ -1,0 +1,28 @@
+{
+  "name": "qa-test-website",
+  "version": "1.0.0",
+  "description": "Website ujian hard skill QA Staff untuk interview (CRUD + Login dengan bug tersembunyi)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node db/seed.js"
+  },
+  "keywords": [
+    "qa",
+    "testing",
+    "interview",
+    "crud"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
