@@ -4,7 +4,7 @@
 
 1. Jalankan `npm run seed`.
 2. Jalankan `npm run dev` dan cek `http://localhost:3000/health`.
-3. Berikan kandidat URL, akun `staff1 / staff123`, template bug report, dan waktu 20 menit.
+3. Berikan kandidat URL, akun `production / staff123`, template bug report, dan waktu 20 menit.
 4. Jangan memberikan source code atau `key-bugs.md`.
 
 ## Instruksi Kandidat
