@@ -26,6 +26,7 @@ alter table public.products enable row level security;
 
 -- Run this block when upgrading an existing project created with the old role list.
 alter table public.users drop constraint if exists users_role_check;
+update public.users set role = 'production' where role = 'staff';
 alter table public.users add constraint users_role_check check (role in ('admin', 'production', 'warehouse'));
 
 -- The backend uses SUPABASE_SECRET_KEY and performs authorization in Express.
