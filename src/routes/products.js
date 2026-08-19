@@ -10,10 +10,7 @@ const imageUpload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 2 * 1024 * 1024 },
   fileFilter: (req, file, callback) => {
-    const extension = path.extname(file.originalname).toLowerCase();
-    const validExtension = ['.jpg', '.jpeg', '.png'].includes(extension);
-    const validMime = ['image/jpeg', 'image/png'].includes(file.mimetype);
-    if (!validExtension || !validMime) return callback(new Error('Gambar harus berformat JPG atau PNG'));
+    // BUG B-H4 (sengaja): file non-image ikut diterima sebagai gambar produk.
     callback(null, true);
   },
 });

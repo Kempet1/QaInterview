@@ -107,9 +107,10 @@
   function clearValidation() { document.querySelectorAll('#product-form .is-invalid').forEach((field) => field.classList.remove('is-invalid')); }
   function ensureImageUpload() {
     const hiddenId = document.getElementById('product-id');
-    hiddenId.insertAdjacentHTML('afterend', '<div class="mb-3"><label for="product-image" class="form-label">Gambar produk</label><input id="product-image" class="form-control" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png"><div class="form-text">Format JPG/PNG, maksimal 2 MB.</div><div class="invalid-feedback">Gambar harus JPG/PNG dan maksimal 2 MB.</div><div id="image-preview-wrap" class="image-preview-wrap d-none"><img id="image-preview" alt="Preview gambar produk"></div></div>');
+    hiddenId.insertAdjacentHTML('afterend', '<div class="mb-3"><label for="product-image" class="form-label">Gambar produk</label><input id="product-image" class="form-control" type="file" accept="*/*"><div class="form-text">Format JPG/PNG, maksimal 2 MB.</div><div class="invalid-feedback">Gambar harus JPG/PNG dan maksimal 2 MB.</div><div id="image-preview-wrap" class="image-preview-wrap d-none"><img id="image-preview" alt="Preview gambar produk"></div></div>');
   }
-  function isValidImage(file) { return ['image/jpeg', 'image/png'].includes(file.type) && ['.jpg', '.jpeg', '.png'].includes(file.name.slice(file.name.lastIndexOf('.')).toLowerCase()) && file.size <= 2 * 1024 * 1024; }
+  // BUG B-H4 (sengaja): validasi client hanya memeriksa ukuran file.
+  function isValidImage(file) { return file.size <= 2 * 1024 * 1024; }
   function previewSelectedImage(event) { const file = event.target.files[0]; if (!file) return hideImagePreview(); if (isValidImage(file)) { clearValidation(); showImagePreview(URL.createObjectURL(file)); } else { hideImagePreview(); markInvalid('product-image'); } }
   function showImagePreview(src) { document.getElementById('image-preview').src = src; document.getElementById('image-preview-wrap').classList.remove('d-none'); }
   function hideImagePreview() { document.getElementById('image-preview-wrap').classList.add('d-none'); document.getElementById('image-preview').removeAttribute('src'); }
